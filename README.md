@@ -16,4 +16,4 @@ How to use the programm
    python3 csv_to_ynab.py ~/Documents/budget/17-09-2020.xls
    
 5. Programm will save the file to the folder where xls file located but with a different name, in the following format "DD-MM-YEAR-ynab.csv"
-6. Import saved file to the inab
+6. Import saved file to the YNAB
