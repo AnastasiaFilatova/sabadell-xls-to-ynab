@@ -4,6 +4,7 @@ import csv
 import pandas as pd
 
 
+
 fn = sys.argv[1]
 print(fn)
 
@@ -28,7 +29,8 @@ def parse_csv_with_panda(budget_file):
 	filtered_csv = pd.read_csv(budget_file, usecols=[0, 1, 5, 3], skiprows=[x for x in range(8)], parse_dates=[0])
 	new_headers = {'F. Operativa': 'Date', 'Concepto': 'Payee', 'Referencia 1': 'Memo', 'Importe': 'Amount'}
 	filtered_csv.rename(columns=new_headers, inplace=True)
-	
+	filtered_csv['Payee'] = filtered_csv['Payee'].map(lambda x: x[30:] if 'COMPRA TARJ.' in x else x)
+
 	print('Parsed csv budget file')
 	print('*******************************************************************************')
 	print(filtered_csv)
@@ -45,3 +47,4 @@ read_excel(excel_file, budget_file)
 data = parse_csv_with_panda(budget_file)
 
 write_to_csv(budget_file, data, new_file_path)
+
