@@ -2,6 +2,7 @@ import os
 import sys
 import csv
 import pandas as pd
+from datetime import datetime
 
 
 
@@ -9,6 +10,8 @@ fn = sys.argv[1]
 print(fn)
 
 excel_file = os.path.abspath(fn)
+
+custom_date_parser = lambda x: datetime.strptime(x, "%d/%m/%Y")
 
 print('Provided budget file: {}'.format(excel_file))
 
@@ -26,7 +29,7 @@ def read_excel(excel_file, budget_file):
 
 
 def parse_csv_with_panda(budget_file):
-	filtered_csv = pd.read_csv(budget_file, usecols=[0, 1, 5, 3], skiprows=[x for x in range(8)], parse_dates=[0])
+	filtered_csv = pd.read_csv(budget_file, usecols=[0, 1, 5, 3], skiprows=[x for x in range(8)], parse_dates=[0], date_parser=custom_date_parser)
 	new_headers = {'F. Operativa': 'Date', 'Concepto': 'Payee', 'Referencia 1': 'Memo', 'Importe': 'Amount'}
 	filtered_csv.rename(columns=new_headers, inplace=True)
 	filtered_csv['Payee'] = filtered_csv['Payee'].map(lambda x: x[30:] if 'COMPRA TARJ.' in x else x)
